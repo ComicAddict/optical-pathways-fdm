@@ -392,7 +392,11 @@ class TDP_PT_PlanarCurveDrawingSidebar(bpy.types.Panel):
         row = self.layout.row(align=True)
         prop = row.operator(TDP_OT_ApplyPartitioningModifier.bl_idname, text="Apply Partitioning")
         row = self.layout.row(align=True)
-        prop = row.operator(TDP_OT_ApplyPartitioningModifier.bl_idname, text="Apply Print Layout")
+        prop = row.operator(TDP_OT_AddOneToMany.bl_idname, text="Add One:Many Block")
+        row = self.layout.row(align=True)
+        prop = row.operator(TDP_OT_AddShape2Shape.bl_idname, text="Add Shape:Shape Block")
+        row = self.layout.row(align=True)
+        prop = row.operator(TDP_OT_AddTransform.bl_idname, text="Add Transform Block")
 
 classes = [
     TDP_OT_PlanarCurveDrawing,
