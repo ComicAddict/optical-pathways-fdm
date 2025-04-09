@@ -269,7 +269,7 @@ class TDP_OT_ApplyPartitioningModifier(bpy.types.Operator):
 
         if(bpy.data.node_groups.find('PARTITION') == -1):
             append_partition()
-        gn = bpy.data.node_groups['FREE_FORM']
+        gn = bpy.data.node_groups['PARTITION']
 
         if(bpy.data.collections.find("PARTITION RESULTS") == -1):
             rescol = bpy.data.collections.new("PARTITION RESULTS")
