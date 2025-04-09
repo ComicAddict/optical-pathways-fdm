@@ -297,7 +297,7 @@ class TDP_OT_PlanarCurveDrawing(bpy.types.Operator):
     def modal(self, context, event):
         
         if self.curve_ob != None:
-            if event.type in {'MIDDLEMOUSE', 'WHEELUPMOUSE', 'WHEELDOWNMOUSE', 'LEFTMOUSE'}:
+            if event.type in {'MIDDLEMOUSE', 'WHEELUPMOUSE', 'WHEELDOWNMOUSE', 'LEFTMOUSE', 'TRACKPADPAN', 'TRACKPADZOOM', 'MOUSEROTATE','MOUSESMARTZOOM'}:
                 return {'PASS_THROUGH'}
             elif event.ctrl and event.type == 'Z' and event.value =='PRESS':
                 return {'PASS_THROUGH'}
@@ -313,7 +313,7 @@ class TDP_OT_PlanarCurveDrawing(bpy.types.Operator):
             else:
                 return {'RUNNING_MODAL'}
         elif self.canvas != None:
-            if event.type in {'MIDDLEMOUSE', 'WHEELUPMOUSE', 'WHEELDOWNMOUSE'}:
+            if event.type in {'MIDDLEMOUSE', 'WHEELUPMOUSE', 'WHEELDOWNMOUSE', 'TRACKPADPAN', 'TRACKPADZOOM', 'MOUSEROTATE','MOUSESMARTZOOM'}:
                 return {'PASS_THROUGH'}
             elif event.type == 'MOUSEMOVE':
                 self.canvas.rotation_euler.rotate_axis('X',radians((self.x - event.mouse_region_x)/5.0))
@@ -354,10 +354,10 @@ class TDP_OT_PlanarCurveDrawing(bpy.types.Operator):
             if event.type == 'LEFTMOUSE' and event.value == 'PRESS':
                 hit_world = main(context, event)
                 self.picked_points.append(hit_world)
-            elif event.type in {'MIDDLEMOUSE', 'WHEELUPMOUSE', 'WHEELDOWNMOUSE'}:
+            elif event.type in {'MIDDLEMOUSE', 'WHEELUPMOUSE', 'WHEELDOWNMOUSE','TRACKPADPAN', 'TRACKPADZOOM', 'MOUSEROTATE','MOUSESMARTZOOM'}:
                 # allow navigation
                 return {'PASS_THROUGH'}
-        elif event.type in {'MIDDLEMOUSE', 'WHEELUPMOUSE', 'WHEELDOWNMOUSE'}:
+        elif event.type in {'MIDDLEMOUSE', 'WHEELUPMOUSE', 'WHEELDOWNMOUSE', 'TRACKPADPAN', 'TRACKPADZOOM', 'MOUSEROTATE','MOUSESMARTZOOM'}:
             # allow navigation
             return {'PASS_THROUGH'}
         elif event.type == 'LEFTMOUSE' and event.value == 'PRESS':
