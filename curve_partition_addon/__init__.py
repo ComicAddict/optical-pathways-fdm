@@ -155,15 +155,17 @@ class TDP_OT_AddTransform(bpy.types.Operator):
     bl_label = "Add transform block"
 
     def execute(self, context):
-        if(bpy.data.collections.find("CHANNELS") == -1):
-            self.report({'ERROR'}, 'CHANNELS collection not found, first create channels')
+        col_id = bpy.data.collections.find("CHANNELS")
+        if col_id == -1:
+            bpy.data.collections.new("CHANNELS")
+            context.scene.collection.children.link(bpy.data.collections["CHANNELS"])
         col = bpy.data.collections['CHANNELS']
 
         if(bpy.data.node_groups.find('TRANSFORM') == -1):
             append_transform()
         gn = bpy.data.node_groups['TRANSFORM']
 
-        resmesh = bpy.data.meshes.new("transform.001", 'MESH')
+        resmesh = bpy.data.meshes.new("transform.001")
         resob = bpy.data.objects.new("transform.001", resmesh)
 
         col.objects.link(resob) 
@@ -181,15 +183,17 @@ class TDP_OT_AddShape2Shape(bpy.types.Operator):
     bl_label = "Add shape2shape block"
 
     def execute(self, context):
-        if(bpy.data.collections.find("CHANNELS") == -1):
-            self.report({'ERROR'}, 'CHANNELS collection not found, first create channels')
+        col_id = bpy.data.collections.find("CHANNELS")
+        if col_id == -1:
+            bpy.data.collections.new("CHANNELS")
+            context.scene.collection.children.link(bpy.data.collections["CHANNELS"])
         col = bpy.data.collections['CHANNELS']
 
         if(bpy.data.node_groups.find('SHAPE2SHAPE') == -1):
-            append_one2many()
+            append_shape2shape()
         gn = bpy.data.node_groups['SHAPE2SHAPE']
 
-        resmesh = bpy.data.meshes.new("shape2shape.001", 'MESH')
+        resmesh = bpy.data.meshes.new("shape2shape.001")
         resob = bpy.data.objects.new("shape2shape.001", resmesh)
 
         col.objects.link(resob) 
@@ -206,15 +210,17 @@ class TDP_OT_AddOneToMany(bpy.types.Operator):
     bl_label = "Add one2many block"
 
     def execute(self, context):
-        if(bpy.data.collections.find("CHANNELS") == -1):
-            self.report({'ERROR'}, 'CHANNELS collection not found, first create channels')
+        col_id = bpy.data.collections.find("CHANNELS")
+        if col_id == -1:
+            bpy.data.collections.new("CHANNELS")
+            context.scene.collection.children.link(bpy.data.collections["CHANNELS"])
         col = bpy.data.collections['CHANNELS']
 
         if(bpy.data.node_groups.find('ONE2MANY') == -1):
             append_one2many()
         gn = bpy.data.node_groups['ONE2MANY']
 
-        resmesh = bpy.data.meshes.new("one2many.001", 'MESH')
+        resmesh = bpy.data.meshes.new("one2many.001")
         resob = bpy.data.objects.new("one2many.001", resmesh)
 
         col.objects.link(resob) 
