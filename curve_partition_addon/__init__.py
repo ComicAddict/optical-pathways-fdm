@@ -403,6 +403,8 @@ class TDP_PT_PlanarCurveDrawingSidebar(bpy.types.Panel):
         prop = row.operator(TDP_OT_AddShape2Shape.bl_idname, text="Add Shape:Shape Block")
         row = self.layout.row(align=True)
         prop = row.operator(TDP_OT_AddTransform.bl_idname, text="Add Transform Block")
+        row = self.layout.row(align=True)
+        prop = row.operator(TDP_OT_ApplyLayoutModifier.bl_idname, text="Apply 2D Printing Layout")
 
 classes = [
     TDP_OT_PlanarCurveDrawing,
