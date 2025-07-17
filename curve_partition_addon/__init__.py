@@ -12,6 +12,7 @@ from bpy.utils import resource_path
 from pathlib import Path
 from math import radians
 from bpy.app.handlers import persistent
+from mathutils import Vector
 
 def append_partition():
     USER = Path(resource_path('USER'))
@@ -231,28 +232,6 @@ class TDP_OT_AddOneToMany(bpy.types.Operator):
 
         return {'FINISHED'}
 
-class TDP_OT_ApplyLayoutModifier(bpy.types.Operator):
-    """Applies GN based printing layout modifier to active object"""
-    bl_idname = "curve_partition.apply_layout"
-    bl_label = "Curve Based Printing Layout"
-
-    def execute(self, context):
-        if(context.selected_objects == []):
-            self.report({'ERROR'}, 'No object selected, please select an object from viewport')
-        ob = context.selected_objects[0]
-
-        if(bpy.data.node_groups.find('LAYOUT_AND_EXPORT') == -1):
-            append_layout_and_export()
-        gn = bpy.data.node_groups['LAYOUT_AND_EXPORT']
-
-        resob = context.active_object
-        mod = resob.modifiers.new("LAYOUT",'NODES')
-        mod.node_group = gn
-
-        resob.data.update()
-
-        return {'FINISHED'}
-
 class TDP_OT_ApplyPartitioningModifier(bpy.types.Operator):
     """Applies GN based Modifier to active object"""
     bl_idname = "curve_partition.apply_partition"
@@ -305,10 +284,29 @@ class TDP_OT_PlanarCurveDrawing(bpy.types.Operator):
                 return {'PASS_THROUGH'}
             elif event.type in {'ESC'}:
                 temp = self.canvas.data
+                self.orientation = Vector((self.canvas.rotation_euler[0], self.canvas.rotation_euler[1], self.canvas.rotation_euler[2]))
                 bpy.data.objects.remove(self.canvas)
                 bpy.data.meshes.remove(temp)
                 context.view_layer.objects.active = self.curve_ob
                 bpy.ops.object.editmode_toggle()
+                
+                self.curve_ob.data.resolution_u = 64
+                self.curve_ob.select_set(True)
+
+                bpy.ops.object.convert()
+
+                bpy.ops.geometry.attribute_add(name="rot", domain='POINT', data_type='FLOAT_VECTOR')
+                mesh = self.curve_ob.data
+
+                att = mesh.attributes["rot"]
+                att_val = []
+                for i in range(len(mesh.vertices)):
+                    att_val.append(self.orientation[0])
+                    att_val.append(self.orientation[1])
+                    att_val.append(self.orientation[2])
+
+                att.data.foreach_set("vector", att_val)
+
                 return {'FINISHED'}
             else:
                 return {'RUNNING_MODAL'}
@@ -381,6 +379,7 @@ class TDP_OT_PlanarCurveDrawing(bpy.types.Operator):
             self.curve_ob = None
             self.axis = None
             self.x = 0
+            self.orientation = None
             return {'RUNNING_MODAL'}
         else:
             self.report({'WARNING'}, "Active space must be a View3d")
@@ -404,13 +403,11 @@ class TDP_PT_PlanarCurveDrawingSidebar(bpy.types.Panel):
         row = self.layout.row(align=True)
         prop = row.operator(TDP_OT_AddTransform.bl_idname, text="Add Transform Block")
         row = self.layout.row(align=True)
-        prop = row.operator(TDP_OT_ApplyLayoutModifier.bl_idname, text="Apply 2D Printing Layout")
 
 classes = [
     TDP_OT_PlanarCurveDrawing,
     TDP_PT_PlanarCurveDrawingSidebar,
     TDP_OT_ApplyPartitioningModifier,
-    TDP_OT_ApplyLayoutModifier,
     TDP_OT_AddOneToMany,
     TDP_OT_AddShape2Shape,
     TDP_OT_AddTransform
