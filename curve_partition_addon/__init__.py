@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Planar Channel Partitioning",
     "blender": (4,4,0),
-    "version": (0,1),
+    "version": (0,2),
     "author": "ComicAddict",
     "category": "Object"
 }
