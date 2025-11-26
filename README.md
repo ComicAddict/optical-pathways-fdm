@@ -32,3 +32,25 @@ From `3D Viewport` Sidebar you can access the addon under `Curve Partitioning To
 - `curve_partition.apply_layout`
 - `curve_partition.add_one2many`
 - `curve_partition.add_shape2shape`
+
+## About
+When using this repository in academic project please cite:
+
+```bibtex
+@inproceedings{10.1145/3745778.3766660,
+author = {Deshpande, Himani and Yildiz, Tolga and Villegas, Madelein and Akleman, Ergun and Kim, Jeeeun},
+title = {Fabricating Interactions through Optical Pathways},
+year = {2025},
+isbn = {9798400720345},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3745778.3766660},
+doi = {10.1145/3745778.3766660},
+articleno = {9},
+numpages = {12},
+keywords = {FDM, Modeling, Optical Channels},
+location = {
+},
+series = {SCF '25}
+}
+```
